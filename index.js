@@ -39,6 +39,12 @@ app.on('activate', function () {
     }
 });
 
+/*require('update-electron-app')({
+    repo: '"git+https://github.com/shubhsurya06/autoupdate-electron.git',
+    updateInterval: '5 minutes',
+    notifyUser: true
+})*/
+
 ipcMain.on('app_version', (event) => {
     event.sender.send('app_version', { version: app.getVersion() });
 });
@@ -52,4 +58,4 @@ autoUpdater.on('update-downloaded', () => {
 
 ipcMain.on('restart_app', () => {
     autoUpdater.quitAndInstall();
-  });
+});
