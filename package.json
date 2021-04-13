@@ -1,0 +1,29 @@
+{
+  "name": "autoupdate-electron",
+  "version": "1.0.0",
+  "description": "autoupdate-electron-app-feature",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "electron-builder build --win --publish never",
+    "deploy": "electron-builder build --win --publish always"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shubhsurya06/autoupdate-electron.git"
+  },
+  "author": "Shubham Suryawanshi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shubhsurya06/autoupdate-electron/issues"
+  },
+  "homepage": "https://github.com/shubhsurya06/autoupdate-electron#readme",
+  "devDependencies": {
+    "electron": "^12.0.2",
+    "electron-builder": "^22.10.5"
+  },
+  "dependencies": {
+    "electron-updater": "^4.3.8"
+  }
+}
