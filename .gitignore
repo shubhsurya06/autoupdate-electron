@@ -1,2 +1,5 @@
 ECHO is on.
 node_modules
+electron-builder.yml
+
+.vscode
