@@ -1,6 +1,6 @@
 {
   "name": "autoupdate-electron",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "autoupdate-electron-app-feature",
   "main": "index.js",
   "scripts": {
@@ -20,10 +20,10 @@
   "homepage": "https://github.com/shubhsurya06/autoupdate-electron#readme",
   "devDependencies": {
     "electron": "^12.0.2",
-    "electron-builder": "^22.10.5"
+    "electron-builder": "^20.34.0"
   },
   "dependencies": {
-    "electron-updater": "^4.3.8",
+    "electron-updater": "^3.2.3",
     "http-server": "^0.12.3",
     "update-electron-app": "^2.0.1"
   }
