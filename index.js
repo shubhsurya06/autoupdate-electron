@@ -58,3 +58,8 @@ ipcMain.on('restart_app', () => {
     console.log("restarting app")
     autoUpdater.quitAndInstall();
 });
+
+autoUpdater.on('checking-for-update', () => {
+    console.log('checking for updates');
+    mainWindow.webContents.send('checking-for-update');
+})
