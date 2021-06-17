@@ -3,6 +3,8 @@ const { autoUpdater } = require('electron-updater');
 
 let mainWindow;
 
+autoUpdater.autoDownload = false;
+
 function createWindow() {
     mainWindow = new BrowserWindow({
         width: 800,
@@ -10,7 +12,7 @@ function createWindow() {
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false
-        },
+        }
     });
     mainWindow.loadFile('index.html');
     mainWindow.on('closed', function () {
@@ -58,8 +60,3 @@ ipcMain.on('restart_app', () => {
     console.log("restarting app")
     autoUpdater.quitAndInstall();
 });
-
-autoUpdater.on('checking-for-update', () => {
-    console.log('checking for updates');
-    mainWindow.webContents.send('checking-for-update');
-})
