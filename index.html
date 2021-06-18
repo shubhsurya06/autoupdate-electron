@@ -75,7 +75,7 @@
         ipcRenderer.on('update-not-available', (data) => {
             console.log('update not available:- ', data);
             ipcRenderer.removeAllListeners('update-not-available');
-            message.innerText = 'Update not available. Check later...';
+            message.innerText = 'App is up to date!';
             notification.classList.remove('hidden');
         });
 
@@ -83,6 +83,14 @@
             console.log('update downloaded:- ', data);
             ipcRenderer.removeAllListeners('update_downloaded');
             message.innerText = 'Update Downloaded. It will be installed on restart. Restart now?';
+            restartButton.classList.remove('hidden');
+            notification.classList.remove('hidden');
+        });
+
+        ipcRenderer.on('update_error', (error) => {
+            console.log('update_error:- ', JSON.stringify(error));
+            ipcRenderer.removeAllListeners('update_error');
+            message.innerText = `Update error: ${JSON.stringify(error)}`;
             restartButton.classList.remove('hidden');
             notification.classList.remove('hidden');
         });

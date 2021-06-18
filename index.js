@@ -1,7 +1,8 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const { autoUpdater } = require('electron-updater');
 
 let mainWindow;
+let updateCancellationToken = null;
 
 autoUpdater.autoDownload = false;
 
@@ -25,10 +26,11 @@ app.on('ready', () => {
     autoUpdater.checkForUpdatesAndNotify();
     // setTimeout of 10 sec to see if update is available or not
     /*setTimeout(() => {
-        mainWindow.webContents.send('checkForUpdates');
+        //mainWindow.webContents.send('checkForUpdates');
         autoUpdater.checkForUpdates().then((downloadPromise) => {
             console.log('check for updates response:- ', downloadPromise)
             updateCancellationToken = downloadPromise.cancellationToken;
+            dialog.showMessageBox(updateCancellationToken);
         });
     }, 1000 * 10);*/
     /*require('update-electron-app')({
@@ -61,10 +63,15 @@ autoUpdater.on('update-available', (info) => {
         type: 'info',
         title: 'Update Available',
         message: `New update ${info.version} is available.\nDo you want to download it now?`,
+        details: `${JSON.parse(info)}`,
         buttons: ["Yes", "No"]
     }
-    dialog.showMessageBox(options, function (index) {
-        if (index == 0) {
+    dialog.showMessageBox(null, options).then((response) => {
+        if (response.response === 0) {
+            autoUpdater.downloadUpdate(updateCancellationToken).then((response) => {
+                console.log('downloading update:- ', response)
+                mainWindow.webContents.send("update_available", { type: "info", text: "Download started..." });
+            });
             mainWindow.webContents.send('update_available');
         }
     });
@@ -73,12 +80,17 @@ autoUpdater.on('update-available', (info) => {
 
 autoUpdater.on('update-downloaded', (info) => {
     console.log("update downloaded:- ", info)
+    updateCancellationToken = null;
     mainWindow.webContents.send('update_downloaded', info);
 });
 
 autoUpdater.on('update-not-available', (info) => {
     console.log("update-not-available, ", info)
     mainWindow.webContents.send('update-not-available', info);
+});
+
+autoUpdater.on("error", (error) => {
+    mainWindow.webContents.send("update_error", error);
 });
 
 ipcMain.on('restart_app', () => {
